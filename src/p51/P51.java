@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class P51 {
 
-    public static ArrayList f(ArrayList goal,ArrayList<Integer> source,int n,int b){
+    public static ArrayList irreversibleChoiceBySteinsGate(ArrayList goal,ArrayList<Integer> source,int n,int b){
         ArrayList<ArrayList>r=new ArrayList<>();
         ArrayList<Integer>temp=new ArrayList<>();
         if(n==b){
@@ -30,13 +30,13 @@ public class P51 {
             c.add(n);
             for(int i=0;i<((ArrayList)goal.get(n)).size();i++){
                 if(!c.contains((int)(((ArrayList)(goal.get(n))).get(i)))){
-                    r.add(f(goal,c,(int)(((ArrayList)(goal.get(n))).get(i)),b));
+                    r.add(irreversibleChoiceBySteinsGate(goal,c,(int)(((ArrayList)(goal.get(n))).get(i)),b));
                 }
             }
         }
         return r;
     }
-    public static ArrayList goDeep(ArrayList a,ArrayList pathStored,int b){
+    public static ArrayList extractionOfTimeParadoxThroughWarmHole(ArrayList a,ArrayList pathStored,int b){
         ArrayList<Integer>r=new ArrayList<>();
         while(!a.isEmpty()){
             try{
@@ -46,10 +46,10 @@ public class P51 {
             }catch(Exception e){
                 try{
                     if((a.size()==1&&(int)((ArrayList)a.get(0)).get(0)==b)||a.size()>1){
-                        pathStored=goDeep((ArrayList)a.get(0),pathStored,b);
+                        pathStored=extractionOfTimeParadoxThroughWarmHole((ArrayList)a.get(0),pathStored,b);
                     }
                 }catch(Exception d){
-                    pathStored=goDeep((ArrayList)a.get(0),pathStored,b);
+                    pathStored=extractionOfTimeParadoxThroughWarmHole((ArrayList)a.get(0),pathStored,b);
                 }
                 a.remove(0);
             }
@@ -79,9 +79,10 @@ public class P51 {
         for(int i=0;i<q;i++){
             operation[i]=in.nextInt()-1;
         }
-        r=f(nodes,new ArrayList<Integer>(),a,b);
-        ArrayList<Integer>path=goDeep(r,new ArrayList<ArrayList>(),b);
+        r=irreversibleChoiceBySteinsGate(nodes,new ArrayList<Integer>(),a,b);
+        ArrayList<Integer>path=extractionOfTimeParadoxThroughWarmHole(r,new ArrayList<ArrayList>(),b);
         ArrayList<ArrayList>p=new ArrayList<>();
+        //mathematicalProofOfDeterminism
         boolean valid=true;
         int index=0;
         while(!path.isEmpty()){
@@ -102,6 +103,11 @@ public class P51 {
             if(Collections.frequency(p,p.get(p.size()-1))>1){
                 valid=false;
             }
+            for(int i=0;i<p.get(p.size()-1).size()-1;i++){
+                if(time[(int)(p.get(p.size()-1).get(i))][(int)(p.get(p.size()-1).get(i+1))]==0){
+                    valid=false;
+                }
+            }
             if(valid){
                 path.remove(p.get(p.size()-1).size()-1);
                 index=p.get(p.size()-1).size()-1;
@@ -111,7 +117,10 @@ public class P51 {
                 p.remove(p.size()-1);
             }
             valid=true;
+            System.out.println(index+" "+path);
         }
+        System.out.println(p);
+        //myFunction
         ArrayList<Integer>total=new ArrayList<>();
         ArrayList<Integer>mini=new ArrayList<>();
         for(int i=0;i<p.size();i++){
